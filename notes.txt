@@ -1,0 +1,56 @@
+compile to object: /home/khorton/Tools/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eabi-gcc -c main.c -o main.o
+
+-mcpu=cortex-m4
+
+-mthumb and -marm selects thumb or arm. default is arm
+
+-s stops after compilation proper. No assembler.
+
+
+Startup
+*Copy .data from flash to RAM(SRAM)
+*Crate symbols in linker script to set boundaries for different areas of memory
+*Uninitialized variables in .bss
+
+.bss vs .data
+    .bss stands for block started by symbol. This is for uninitialized data, and not stored in .data to conserve space. Unlike 
+.data, .bss doesn't consume flash memory, and has no load address. Must resevre RAM space for .bss by knowing it's size. This
+is done in the startup code. Get size from linker script symbol.
+
+Startup file
+    Responsible for setting up environment for main function, which obviously means it runs before main. Some part of startup
+code is architecture dependent. Also takes care of vector placemnt and stack reinitialization. Also Responsible for .bss and
+.data init. 
+
+Linker Scripts
+*Linker script is a text file which explains how different sections of object files should be merged to create output file
+*Linker and locator combo assigns unique absolute addresses to different seciton of the output file by reffering to address
+info mentioned in the linker script
+*Linker script also includes the code and data memory address and size info 
+*Linker scripts are writeen using the GNU linker command lang
+*Must be be supplied at linker phase by using -T option
+Common Linker Commands:
+*ENTRY-used to set entry point address info in the header of final elf file. In our case, Reset_Handler()
+    Syntax: Entry(_symbol_name_)
+
+*MEMORY-describes different types of memories, locations and sizes of said memories.
+    Syntax: MEMORY
+    {
+        name(attr):ORIGIN=origin,LENGTH=len
+    }
+    *attr=symbols describe functionality of memory, like R for read-only, W for read and write, and X for exectuable
+    *origin=address of memory region
+    *len=length of the memory section
+*SECTIONS-instructs the linker how ot merge the input sections. Also control order in which different output section appear in
+elf file. Also mention the placement of a section in memory region.
+*KEEP
+*ALIGN
+*AT>
+
+*Location Counter(.)-updates this symbol with address. Used inside linker scrits to track and define boundaries. Only appearfs
+    in SECTIONS counter.
+
+When a final Elf file is generated, a Symbol Table is created. A Symbol Table matches linker symbol names to values. 
+
+In .map files, *fill* is used to 4 byte align data. Linkers will do this automatically UNLESS it's the end of a section. Then
+the linker symbol ALIGN(number of words) must be used. ex . = ALIGN(4);
