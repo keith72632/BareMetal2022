@@ -54,3 +54,5 @@ When a final Elf file is generated, a Symbol Table is created. A Symbol Table ma
 
 In .map files, *fill* is used to 4 byte align data. Linkers will do this automatically UNLESS it's the end of a section. Then
 the linker symbol ALIGN(number of words) must be used. ex . = ALIGN(4);
+
+To print out symbols in elf file, run the compiler nm command

@@ -1,5 +1,6 @@
 CC=/home/khorton/Tools/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eabi-gcc
 OBJDUMP=/home/khorton/Tools/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eabi-objdump
+NM=/home/khorton/Tools/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eabi-nm
 MACH=cortex-m4
 CFLAGS= -c -mcpu=$(MACH) -mthumb -std=gnu11 -O0
 OBJ_DIR=./objs/
@@ -21,6 +22,9 @@ final.elf: main.o led.o stm32_startup.o
 
 objdump: final.elf
 	$(OBJDUMP) -h $^
+
+symbols: final.elf
+	$(NM) $^
 
 clean:
 	rm -rf $(OBJ_DIR)*.o *.out *.elf *.map
