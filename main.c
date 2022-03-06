@@ -10,9 +10,10 @@
 void led_init_all_main();
 void led_on_main(uint8_t led_no);
 
+uint32_t x = 5;
 int main()
 {
-    const uint32_t x = 10;
+    x = 10;
     // start_rcc();
     led_init_all_main();
 
