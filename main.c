@@ -7,40 +7,35 @@
 #define LED_BLUE 15
 
 // void start_rcc();
-void led_init_all_main();
-void led_on_main(uint8_t led_no);
+void led_init_all_main(GPIO_Regs_t *port, uint8_t pinNo);
+void led_on_main(GPIO_Regs_t *port, uint8_t led_no);
 
 uint32_t x = 5;
 int main()
 {
     x = 10;
     // start_rcc();
-    led_init_all_main();
+	// GPIO_Regs_t *pGpiodModeReg = (GPIO_Regs_t*)GPIOD_BASE;
 
-    led_on_main(LED_BLUE);
+    led_init_all_main(GPIOD, LED_GREEN);
+
+    led_on_main(GPIOD, LED_GREEN);
 
     return 0;
 }
 
-void led_init_all_main(void)
+void led_init_all_main(GPIO_Regs_t *port, uint8_t pinNo)
 {
 
 	uint32_t *pRccAhb1enr = (uint32_t*)0x40023830;
-	uint32_t *pGpiodModeReg = (uint32_t*)0x40020C00;
 
 
 	*pRccAhb1enr |= ( 1 << 3);
 	//configure LED_GREEN
-	*pGpiodModeReg |= ( 1 << (2 * LED_GREEN));
-	*pGpiodModeReg |= ( 1 << (2 * LED_ORANGE));
-	*pGpiodModeReg |= ( 1 << (2 * LED_RED));
-	*pGpiodModeReg |= ( 1 << (2 * LED_BLUE));
-
+	port->mode |= (1 << (2 * pinNo));
 }
 
-void led_on_main(uint8_t led_no)
+void led_on_main(GPIO_Regs_t *port, uint8_t led_no)
 {
-  uint32_t *pGpiodDataReg = (uint32_t*)0x40020C14;
-  *pGpiodDataReg |= ( 1 << led_no);
-
+	port->odr |= (1 << led_no);
 }
