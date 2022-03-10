@@ -11,13 +11,13 @@ main.o: main.c
 main.s: main.c
 	$(CC) $(CFLAGS) -S  $^ -o $@
 
-led.o: led.c
+gpio.o: gpio.c
 	$(CC) $(CFLAGS) $^ -o $(OBJ_DIR)$@
 
 stm32_startup.o: stm32_startup.c
 	$(CC) $(CFLAGS) $^ -o $(OBJ_DIR)$@
 
-final.elf: main.o led.o stm32_startup.o
+final.elf: main.o gpio.o stm32_startup.o
 	$(CC) -nostdlib  $(OBJ_DIR)*.o -T stm32_ls.ld -Wl,-Map=final.map -o $@
 
 objdump: final.elf
