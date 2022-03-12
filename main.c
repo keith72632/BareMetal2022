@@ -11,29 +11,20 @@
 uint32_t x = 5;
 int main()
 {
-    x = 10;
+    GPIO_t out_D15 = pin_factory(GPIOD, PIN_15, OUTPUT, NO_PULL),
+        in_A10 = pin_factory(GPIOB, PIN_10, INPUT, PULL_DOWN),
+        btn = pin_factory(GPIOA, PIN_0, INPUT, PULL_DOWN);    
 
-	PinConf_t out15, in10, btn;
-	out15.pin_no = 15;
-	out15.pin_mode = OUTPUT;
-
-    btn.pin_no = 0;
-    btn.pin_mode = 0;
-    btn.pupd = PULL_DOWN;
-
-    in10.pin_no = 10;
-    in10.pin_mode = INPUT;
-    in10.pupd = PULL_DOWN;
-    led_init(GPIOD, out15);
-    led_init(GPIOA, btn);
-    led_init(GPIOB, in10);
+    pin_init(&out_D15);
+    pin_init(&btn);
+    pin_init(&in_A10);
 
     while(1)
     {
-        if(read_pin(GPIOA, btn) || read_pin(GPIOB, in10)){
-            write_pin(GPIOD, out15);
+        if(read_pin(&btn) || read_pin(&in_A10)){
+            write_pin(&out_D15);
         }
-        clear_pin(GPIOD, out15);
+        clear_pin(&out_D15);
     }
 
     return 0;

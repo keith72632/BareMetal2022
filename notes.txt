@@ -1,4 +1,4 @@
-compile to object: /home/khorton/Tools/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eabi-gcc -c main.c -o main.o
+﻿compile to object: /home/khorton/Tools/gcc-arm-none-eabi-10.3-2021.10/bin/arm-none-eabi-gcc -c main.c -o main.o
 
 -mcpu=cortex-m4
 
@@ -206,3 +206,13 @@ Commands:
         monitor arm semihosting enable
         monitor reset 
         *will start printing in terminal with openocd
+
+
+Serial Communication vs Parallel Communication
+	In serial communication, like UART, one bit is transferred at a time. In parallel communication, all bits are transferred at the same time. Serial data communication uses two methods; Synchronous (clock is transmitted with the data), and Asynchronous (No clock is transmitted. Transmitter and Receiver agree on the clock speed for the data transmission (Baud Rate)). 
+
+Uart Transmission Modes
+Duplex: Data can be transmitted and received
+Simplex: Data can be transmitted only or received only, as in one direction only
+Half Duplex: Data can be transmitted in only one way at a time.
+Full Duplex: Data can be transmitted in both ways at a time

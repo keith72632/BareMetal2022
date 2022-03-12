@@ -1,32 +1,45 @@
 #include "gpio.h"
 
-void led_init(GPIO_RegDef_t *port, PinConf_t pin)
+GPIO_t pin_factory(GPIO_RegDef_t *port, uint8_t number, uint8_t mode, uint8_t pupd)
 {
-	if(port == GPIOA) GPIOA_PCLK_EN();
-	if(port == GPIOB) GPIOB_PCLK_EN();
-	if(port == GPIOC) GPIOC_PCLK_EN();
-	if(port == GPIOD) GPIOD_PCLK_EN();
+	GPIO_t temp = {
+		.pin = {
+			.pin_mode = mode,
+			.pin_no = number,
+			.pupd = pupd
+		},
+		.port = port
+	};
 
-	port->MODER |= (pin.pin_mode << (2 * pin.pin_no));
-	port->PUPDR |= (pin.pupd << (2 * pin.pin_no));
+	return temp;
+}
+void pin_init(GPIO_t *pin)
+{
+	if(pin->port == GPIOA) GPIOA_PCLK_EN();
+	if(pin->port == GPIOB) GPIOB_PCLK_EN();
+	if(pin->port == GPIOC) GPIOC_PCLK_EN();
+	if(pin->port == GPIOD) GPIOD_PCLK_EN();
+
+	pin->port->MODER |= (pin->pin.pin_mode << (2 * pin->pin.pin_no));
+	pin->port->PUPDR |= (pin->pin.pupd << (2 * pin->pin.pin_no));
 }
 
-void write_pin(GPIO_RegDef_t *port, PinConf_t pin)
+void write_pin(GPIO_t *x)
 {
-	port->ODR |= (1 << pin.pin_no);
+	x->port->ODR |= (1 << x->pin.pin_no);
 }
 
-void clear_pin(GPIO_RegDef_t *port, PinConf_t pin)
+void clear_pin(GPIO_t *x)
 {
-	port->ODR &= ~(1 << pin.pin_no);
+	x->port->ODR &= ~(1 << x->pin.pin_no);
 }
 
-void reset_pin(GPIO_RegDef_t *port, PinConf_t pin)
+void reset_pin(GPIO_t *x)
 {
-	port->BSRR |= (1 << pin.pin_no);
+	x->port->BSRR |= (1 << x->pin.pin_no);
 }
 
-uint32_t read_pin(GPIO_RegDef_t *port, PinConf_t pin)
+uint32_t read_pin(GPIO_t *x)
 {
-	return port->IDR &= (1 << pin.pin_no); 
+	return x->port->IDR &= (1 << x->pin.pin_no); 
 }
