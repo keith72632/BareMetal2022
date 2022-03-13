@@ -5,6 +5,8 @@ MACH=cortex-m4
 CFLAGS= -c -mcpu=$(MACH) -mthumb -std=gnu11 -O0
 OBJ_DIR=./objs/
 
+all: final.elf
+
 main.o: main.c
 	$(CC) $(CFLAGS) $^ -o $(OBJ_DIR)$@
 
@@ -14,10 +16,13 @@ main.s: main.c
 gpio.o: gpio.c
 	$(CC) $(CFLAGS) $^ -o $(OBJ_DIR)$@
 
+uart.o: uart.c
+	$(CC) $(CFLAGS) $^ -o $(OBJ_DIR)$@
+
 stm32_startup.o: stm32_startup.c
 	$(CC) $(CFLAGS) $^ -o $(OBJ_DIR)$@
 
-final.elf: main.o gpio.o stm32_startup.o
+final.elf: main.o gpio.o stm32_startup.o uart.o
 	$(CC) -nostdlib  $(OBJ_DIR)*.o -T stm32_ls.ld -Wl,-Map=final.map -o $@
 
 objdump: final.elf

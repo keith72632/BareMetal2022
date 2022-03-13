@@ -5,6 +5,8 @@
 
 #define INPUT     0x00
 #define OUTPUT    0x01
+#define ALT       0x02
+#define ANALOG    0x03
 
 #define NO_PULL   0x00
 #define PULL_UP   0x01
@@ -38,8 +40,8 @@ typedef struct GPIO {
     GPIO_RegDef_t *port;
 } GPIO_t;
 
-GPIO_t pin_factory(GPIO_RegDef_t *port, uint8_t number, uint8_t mode, uint8_t pupd);
-void pin_init(GPIO_t *pin);
+GPIO_t gpio_factory(GPIO_RegDef_t *port, uint8_t number, uint8_t mode, uint8_t pupd);
+void gpio_pin_init(GPIO_t *pin);
 void write_pin(GPIO_t *x);
 void clear_pin(GPIO_t *x);
 void reset_pin(GPIO_t *x);

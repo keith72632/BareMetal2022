@@ -1,6 +1,6 @@
 #include "gpio.h"
 
-GPIO_t pin_factory(GPIO_RegDef_t *port, uint8_t number, uint8_t mode, uint8_t pupd)
+GPIO_t gpio_factory(GPIO_RegDef_t *port, uint8_t number, uint8_t mode, uint8_t pupd)
 {
 	GPIO_t temp = {
 		.pin = {
@@ -13,7 +13,7 @@ GPIO_t pin_factory(GPIO_RegDef_t *port, uint8_t number, uint8_t mode, uint8_t pu
 
 	return temp;
 }
-void pin_init(GPIO_t *pin)
+void gpio_pin_init(GPIO_t *pin)
 {
 	if(pin->port == GPIOA) GPIOA_PCLK_EN();
 	if(pin->port == GPIOB) GPIOB_PCLK_EN();
