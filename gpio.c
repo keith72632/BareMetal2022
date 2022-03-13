@@ -24,22 +24,22 @@ void gpio_pin_init(GPIO_t *pin)
 	pin->port->PUPDR |= (pin->pin.pupd << (2 * pin->pin.pin_no));
 }
 
-void write_pin(GPIO_t *x)
+void write_pin(GPIO_t *gpio)
 {
-	x->port->ODR |= (1 << x->pin.pin_no);
+	gpio->port->ODR |= (ENABLE << gpio->pin.pin_no);
 }
 
-void clear_pin(GPIO_t *x)
+void clear_pin(GPIO_t *gpio)
 {
-	x->port->ODR &= ~(1 << x->pin.pin_no);
+	gpio->port->ODR &= ~(ENABLE << gpio->pin.pin_no);
 }
 
-void reset_pin(GPIO_t *x)
+void reset_pin(GPIO_t *gpio)
 {
-	x->port->BSRR |= (1 << x->pin.pin_no);
+	gpio->port->BSRR |= (ENABLE << gpio->pin.pin_no);
 }
 
-uint32_t read_pin(GPIO_t *x)
+uint32_t read_pin(GPIO_t *gpio)
 {
-	return x->port->IDR &= (1 << x->pin.pin_no); 
+	return gpio->port->IDR &= (ENABLE << gpio->pin.pin_no); 
 }
