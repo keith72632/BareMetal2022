@@ -4,7 +4,7 @@
 #include "stm32f407xx.h"
 
 #define BAUD_9600    0x0683
-#define RE           0x002
+#define RE           0x02
 #define TE           0x03
 #define RXNEIE       0x05
 #define UE           0x0D

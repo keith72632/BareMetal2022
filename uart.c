@@ -77,9 +77,7 @@ void uart_puts(USART_t *uart, const char *s)
 }
 
 uint8_t uart_getc(USART_t *uart){
-    if(uart->type->SR & 0x05)
-    {
-        return uart->type->DR;
-    }
-    else return 0;
+    while(!(uart->type->SR & (1 << 5))){};
+
+    return uart->type->DR;
 }

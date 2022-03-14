@@ -23,21 +23,25 @@ int main()
     gpio_pin_init(&btn);
     gpio_pin_init(&in_A10);
 
-    uart_puts(&usart3, header);
     while(1)
     {
+        uart_puts(&usart3, "Enter Password:");
         uint8_t input = uart_getc(&usart3);
-        if(input)
+        if(input == 'X')
         {
-            uart_putc(&usart3, (const char)input);
+            uart_puts(&usart3, header);
+            while(1){
+                if(read_pin(&btn) || read_pin(&in_A10)){
+                    write_pin(&out_D15);
+                    uart_puts(&usart3, "button pushed\n\r");
+                }
+                clear_pin(&out_D15);
+            }
+        } else {
+            uart_puts(&usart3, "\n\rPassword Incorrect\n\r");
         }
-        if(read_pin(&btn) || read_pin(&in_A10)){
-            write_pin(&out_D15);
-            uart_puts(&usart3, "button pushed\n\r");
-        }
-        clear_pin(&out_D15);
+
     }
 
     return 0;
 }
-
