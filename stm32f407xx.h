@@ -319,6 +319,14 @@ typedef struct
 
 /*ADC*/
 #define ADC                ((ADC_RegDef_t*)ADC1_BASEADDR);
+
+/*
+ * Clock Enable Macros for ADCx peripherals
+ */
+#define ADC1_PCLK_EN()      (RCC->APB2ENR |= (1 << 8))
+#define ADC2_PCLK_EN()      (RCC->APB2ENR |= (1 << 9))
+#define ADC3_PCLK_EN()      (RCC->APB2ENR |= (1 << 10))
+
 /*
  * Clock Enable Macros for GPIOx peripherals
  */

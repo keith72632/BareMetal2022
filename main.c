@@ -1,5 +1,6 @@
 #include "gpio.h"
 #include "uart.h"
+#include "adc.h"
 #include "stm32f407xx.h"
 #include <stdint.h>
 
@@ -17,30 +18,23 @@ int main()
         btn = gpio_factory(GPIOA, PIN_0, INPUT, PULL_DOWN);
 
     USART_t usart3 = usart_factory(USART3);
+
+    ADC_t adc_factory(ADC1, GPIOA, PIN_1);
     uart_init(&usart3);
 
     gpio_pin_init(&out_D15);
     gpio_pin_init(&btn);
     gpio_pin_init(&in_A10);
 
-    while(1)
-    {
-        uart_puts(&usart3, "Enter Password:");
-        uint8_t input = uart_getc(&usart3);
-        if(input == 'X')
-        {
-            uart_puts(&usart3, header);
-            while(1){
-                if(read_pin(&btn) || read_pin(&in_A10)){
-                    write_pin(&out_D15);
-                    uart_puts(&usart3, "button pushed\n\r");
-                }
-                clear_pin(&out_D15);
-            }
-        } else {
-            uart_puts(&usart3, "\n\rPassword Incorrect\n\r");
+    uart_puts(&usart3, "Enter Password:");
+    uint8_t input = uart_getc(&usart3);
+    uart_puts(&usart3, header);
+    while(1){
+        if(read_pin(&btn) || read_pin(&in_A10)){
+            write_pin(&out_D15);
+            uart_puts(&usart3, "button pushed\n\r");
         }
-
+        clear_pin(&out_D15);
     }
 
     return 0;
