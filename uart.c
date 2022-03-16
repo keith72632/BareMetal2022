@@ -67,6 +67,13 @@ void uart_putc(USART_t *uart, const char c)
     uart->type->DR = c;
 }
 
+void uart_put_byte(USART_t *uart, uint8_t byte)
+{
+    while(!(uart->type->SR & TXE)){};
+
+    uart->type->DR = byte;
+}
+
 void uart_puts(USART_t *uart, const char *s)
 {
     if(*s){

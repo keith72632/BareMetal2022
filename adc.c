@@ -15,7 +15,24 @@ ADC_t adc_factory(ADC_RegDef_t *adc_base, GPIO_RegDef_t *gpio_port, uint8_t gpio
     return temp;
 }
 
-void adc_init()
+void adc_init(ADC_t *adc)
 {
     ADC1_PCLK_EN();
+    gpio_pin_init(&adc->input_pin);
+
+    // Conversion sequence start
+    adc->adc_addr->SQR3 |= ADC_CHANNEL_ONE;
+
+    // Conversion sequence length
+    adc->adc_addr->SQR1 |= ADC_SEQ_LEN_ONE;
+
+    // Enable ADC module
+    adc->adc_addr->CR2 |= CR2_ADON | SFTWR_START;
+}
+
+uint32_t adc_read(ADC_t *adc)
+{
+    while(!(adc->adc_addr->SR & EOC)){};
+
+    return adc->adc_addr->DR;
 }

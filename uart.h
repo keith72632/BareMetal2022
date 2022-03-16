@@ -20,6 +20,7 @@ typedef struct USART {
 USART_t usart_factory(USART_RegDef_t *uart_type);
 void uart_init(USART_t *uart);
 void uart_putc(USART_t *uart, const char c);
+void uart_put_byte(USART_t *uart, uint8_t byte);
 void uart_puts(USART_t *uart, const char *s);
 uint8_t uart_getc(USART_t *uart);
 
