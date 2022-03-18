@@ -3,6 +3,7 @@
 #include "adc.h"
 #include "stm32f407xx.h"
 #include <stdint.h>
+#include <stdio.h>
 
 #define LED_GREEN 12
 #define LED_ORANGE 13
@@ -22,8 +23,8 @@ int main()
 
     USART_t usart3 = usart_factory(USART3);
 
-    ADC_t adc1 = adc_factory(ADC1, GPIOA, PIN_1);
-    adc_init(&adc1);
+//    ADC_t adc1 = adc_factory(ADC1, GPIOA, PIN_1);
+//    adc_init(&adc1);
     uart_init(&usart3);
 
     gpio_pin_init(&out_D15);
@@ -32,10 +33,17 @@ int main()
 
     uart_puts(&usart3, "Enter Password:");
     uart_puts(&usart3, header);
+//    uint32_t input = adc_read(&adc1);
+
+    _adc_init();
+    _start_conversion();
+    uint32_t input = _adc_read();
     while(1){
         if(read_pin(&btn) || read_pin(&in_A10)){
             write_pin(&out_D15);
             uart_puts(&usart3, "button pushed\n\r");
+            uart_putw(&usart3, input);
+            uart_put_byte(&usart3, 88);
         }
         clear_pin(&out_D15);
     }

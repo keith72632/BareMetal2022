@@ -67,7 +67,7 @@ void uart_putc(USART_t *uart, const char c)
     uart->type->DR = c;
 }
 
-void uart_put_byte(USART_t *uart, uint8_t byte)
+void uart_put_byte(USART_t *uart, const uint8_t byte)
 {
     while(!(uart->type->SR & TXE)){};
 
@@ -83,6 +83,23 @@ void uart_puts(USART_t *uart, const char *s)
     while(!(uart->type->SR & TC)){};
 }
 
+void uart_putw(USART_t *uart, uint32_t word)
+{
+	uint8_t firstByte, secondByte, thirdByte, fourthByte;
+	firstByte = word & 0xff000000;
+	secondByte = word & 0x00ff0000;
+	thirdByte = word & 0x0000ff00;
+	fourthByte = word & 0x000000ff;
+
+//	uart_put_byte(uart, firstByte);
+//	printf("first byte: %x\n", firstByte);
+//	uart_put_byte(uart, secondByte);
+//	printf("second byte: %x\n", secondByte);
+//	uart_put_byte(uart, thirdByte);
+//	printf("third byte: %x\n", thirdByte);
+	uart_put_byte(uart, fourthByte);
+
+}
 uint8_t uart_getc(USART_t *uart){
     while(!(uart->type->SR & (1 << 5))){};
 

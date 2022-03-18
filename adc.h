@@ -1,5 +1,13 @@
-#ifndef ADC_H
-#define ADC_H
+/*
+ * adc.h
+ *
+ *  Created on: Mar 17, 2022
+ *      Author: khorton
+ */
+
+#ifndef ADC_H_
+#define ADC_H_
+
 
 #include "stm32f407xx.h"
 
@@ -17,5 +25,7 @@ typedef struct ADC_t {
 void adc_init(ADC_t *adc);
 ADC_t adc_factory(ADC_RegDef_t *adc_base, GPIO_RegDef_t *gpio_port, uint8_t gpio_pin);
 uint32_t adc_read(ADC_t *adc);
-
-#endif
+void _adc_init(void);
+void _start_conversion(void);
+uint32_t _adc_read(void);
+#endif /* ADC_H_ */
