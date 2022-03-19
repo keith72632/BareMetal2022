@@ -27,5 +27,6 @@ ADC_t adc_factory(ADC_RegDef_t *adc_base, GPIO_RegDef_t *gpio_port, uint8_t gpio
 uint32_t adc_read(ADC_t *adc);
 void _adc_init(void);
 void _start_conversion(void);
+void _start_continuous_conversion(void);
 uint32_t _adc_read(void);
 #endif /* ADC_H_ */

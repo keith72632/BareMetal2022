@@ -216,3 +216,22 @@ Duplex: Data can be transmitted and received
 Simplex: Data can be transmitted only or received only, as in one direction only
 Half Duplex: Data can be transmitted in only one way at a time.
 Full Duplex: Data can be transmitted in both ways at a time
+
+
+Analog to Digital Conversion
+
+Resolutions:
+    n-bit    n-steps    step-size
+    8-bit    256        5v / 256    = 19.53mV
+    10-bit   1024       5v / 1024   = 4.88mV
+    12-bit   4096       5v / 4096   = 12.mv
+    16-bit   65,536     5v / 65,536 = 0.076mV
+
+
+Systick Transmitter
+    24-bit down counter driven by the processor clock. So the maxium start value is 2^24 power, or 0xffffff in hex, or 
+16,777,216 in decimal. Popular Systick Registers include Systick Current Value Register (STCVR), which contains the current
+count value, Systick Control & Status Register (STCSR), which allows the user to configure the systick clock source, enable/
+disable interrupts and enable/disable the systick counter. The Systick Reload Value Register (STRVR) is where the intial count 
+value is place.
+    With a 16 MHz chips, 16,000,000 cycles are completed per second, or one cycle every 0.0000625 ms, or 625 ns. 

@@ -3,7 +3,7 @@
 #include "adc.h"
 #include "stm32f407xx.h"
 #include <stdint.h>
-#include <stdio.h>
+// #include <stdio.h>
 
 #define LED_GREEN 12
 #define LED_ORANGE 13
@@ -36,16 +36,21 @@ int main()
 //    uint32_t input = adc_read(&adc1);
 
     _adc_init();
-    _start_conversion();
-    uint32_t input = _adc_read();
+    _start_continuous_conversion();
+    uint32_t input;
     while(1){
-        if(read_pin(&btn) || read_pin(&in_A10)){
-            write_pin(&out_D15);
-            uart_puts(&usart3, "button pushed\n\r");
-            uart_putw(&usart3, input);
-            uart_put_byte(&usart3, 88);
-        }
-        clear_pin(&out_D15);
+    	input = _adc_read();
+//        if(read_pin(&btn) || read_pin(&in_A10)){
+//            write_pin(&out_D15);
+//            uart_puts(&usart3, "button pushed\n\r");
+//            printf("input: %lx\n", input);
+//            uart_putw(&usart3, input);
+//            uart_put_byte(&usart3, 88);
+//        }
+//        clear_pin(&out_D15);
+    	delay(1000);
+    	// printf("reading = %ld mV\n", (input * 5));
+    	uart_puts(&usart3, "ADC read\n\r");
     }
 
     return 0;

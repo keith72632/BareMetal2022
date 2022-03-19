@@ -25,6 +25,12 @@ void _start_conversion(void)
 	ADC1->CR2 |= (1 << 30);
 }
 
+void _start_continuous_conversion(void)
+{
+	ADC1->CR2 |= (1 << 1);
+	ADC1->CR2 |= (1 << 30);
+}
+
 uint32_t _adc_read()
 {
 	while(!(ADC1->SR & EOC)){}

@@ -133,6 +133,7 @@ typedef struct {
 }ADC_RegDef_t;
 
 #define ADC1_BASEADDR (APB2PERIPH_BASEADDR + 0x2000)
+#define ADC1          ((ADC_RegDef_t*)ADC1_BASEADDR)
 
 /**********************************peripheral register definition structures **********************************/
 
@@ -665,9 +666,6 @@ typedef struct
 #define USART_SR_TXE        			7
 #define USART_SR_LBD        			8
 #define USART_SR_CTS        			9
-
-#define ADC1          ((ADC_RegDef_t*)ADC1_BASEADDR)
-
 
 #include "gpio.h"
 // #include "stm32f407xx_gpio_driver.h"
