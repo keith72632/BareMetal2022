@@ -234,4 +234,37 @@ Systick Transmitter
 count value, Systick Control & Status Register (STCSR), which allows the user to configure the systick clock source, enable/
 disable interrupts and enable/disable the systick counter. The Systick Reload Value Register (STRVR) is where the intial count 
 value is place.
-    With a 16 MHz chips, 16,000,000 cycles are completed per second, or one cycle every 0.0000625 ms, or 625 ns. 
+    With a 16 MHz chips, 16,000,000 cycles are completed per second, or one cycle every 0.0000625 ms, or 625 ns . 
+
+Timer vs. Counter   
+A timer uses an internal clock source, like RC, and a counter is externally fed to the CPU. One of the uses for a timer is 
+to measure the frequency of an external event. This is called Input Capture Mode. Another use is to control an output waveform,
+or to indicate when a period of time has elapsed. The is known as Output Compare Mode. One Pulse Mode or OPM, allows the counter
+to be started in repsone to a stimulus and to generate a pulse with a programmable length after a programmable delay. 
+
+Timer Registers
+Timer Count Register (TIMx_CNT) shwot he current counter value. Size could be 32-bit or 16-bit depending on timer module used.
+Timer Auto-Reload Register (TIMx_ARR); Timer raises a flag and the counter restarts automatically when counter value reaches the
+value in the auto-reload register. The counter is an up counter bu default but can be configured as a down. Timer Prescaler Register
+(TIMx_PSC) is the prescaler. The prescaler slows down the counting speed of the time by dividing the input clock of the timer. 
+
+Clock Pre-scaling
+The system clock is first divided by the bus prescaler, for example, the AHB prescaler. This value is then divided again by the 
+HCLK. Then, the APBx bus will divied this value again with another prescaler. Then the TIMx itself will have another prescaler 
+that finally determines the value. With each change in the counter, the new value is compared to the value in the auto-reload
+register (TIM_ARR) and when the values match a flag is raised and an interrupt occurs. 
+
+Common Timer Terms
+*Update Event: When a timeout occurs or how long it takes for a flag to be raised.
+*Period: Value loaded into auto-reload register(TIM_ARR)
+*Up counter: Counts from zero up to specified value
+*Down counter: Counts from value to zero.
+
+Timer Prescaler example:
+    Update Event = Timer clock / ((Prescaler+1)(Period+1))
+
+    Timer clock = APB1 clock = 48 MHz
+    Prescaler   = TIM_PSC val = 47999 + 1
+    Period      = TIm_ARR val = 499 + 1
+
+    Update Event = 48,000,000 / ((47999+1)(499+1)) 2Hz or 0.5 seconds. (In a 4 GHz system, 4Hz is a second)
