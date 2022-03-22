@@ -27,11 +27,13 @@ adc.o: adc.c
 systick.o: systick.c
 	$(CC) $(CFLAGS) $^ -o $(OBJ_DIR)$@
 
+tim.o: tim.c
+	$(CC) $(CFLAGS) $^ -o $(OBJ_DIR)$@
 
 stm32_startup.o: stm32_startup.c
 	$(CC) $(CFLAGS) $^ -o $(OBJ_DIR)$@
 
-final.elf: main.o gpio.o stm32_startup.o uart.o adc.o systick.o
+final.elf: main.o gpio.o stm32_startup.o uart.o adc.o systick.o tim.o
 	$(CC) -nostdlib  $(OBJ_DIR)*.o -T stm32_ls.ld -Wl,-Map=final.map -o $@
 
 objdump: final.elf

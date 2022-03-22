@@ -1,9 +1,11 @@
 #include "gpio.h"
 #include "uart.h"
+#include "tim.h"
 #include "adc.h"
+#include "systick.h"
 #include "stm32f407xx.h"
 #include <stdint.h>
-// #include <stdio.h>
+#include <stdio.h>
 
 #define LED_GREEN 12
 #define LED_ORANGE 13
@@ -38,6 +40,9 @@ int main()
     _adc_init();
     _start_continuous_conversion();
     uint32_t input;
+
+    tim2_1hz_init();
+
     while(1){
     	input = _adc_read();
 //        if(read_pin(&btn) || read_pin(&in_A10)){
@@ -48,8 +53,15 @@ int main()
 //            uart_put_byte(&usart3, 88);
 //        }
 //        clear_pin(&out_D15);
-    	delay(1000);
-    	// printf("reading = %ld mV\n", (input * 5));
+    /* Uncomment for systick delay
+    	systick_delay_ms(1000);
+    */
+
+    /* Uncomment for TIM2 delay
+        tim2_1hz_init();
+    */
+
+    	printf("reading = %ld mV\n", (input * 5));
     	uart_puts(&usart3, "ADC read\n\r");
     }
 
