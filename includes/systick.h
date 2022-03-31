@@ -19,6 +19,8 @@
 #define CTRL_CLKSRC        (1U << 2)
 #define CTRL_CNTFLAG       (1U << 16)
 
+#define SYSTICK        ((Systick_t*)SYSTICK_ADDR)
+
 typedef struct Systick {
 	uint32_t CTRL;
 	uint32_t LOAD;
@@ -26,8 +28,8 @@ typedef struct Systick {
 	uint32_t CR;
 }Systick_t;
 
-#define SYSTICK        ((Systick_t*)SYSTICK_ADDR)
-
-void systick_delay_ms(int n);
+namespace SysTick {
+	void systick_delay_ms(uint32_t n);
+}
 
 #endif /* SYSTICK_H_ */

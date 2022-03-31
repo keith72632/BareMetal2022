@@ -16,6 +16,14 @@
 #define CR2_ADON            (1U << 0)
 #define SFTWR_START         (1U << 30)
 #define EOC                 (1U << 1)
+#define CONT                (1U << 1);
+typedef struct ADCx {
+    ADC_RegDef_t *adc_type;
+    ADCx(ADC_RegDef_t *adc_type);
+    void start_conversion(void);
+    void start_continuous_conversion(void);
+    uint32_t read(void);
+}ADCx_t;
 
 typedef struct ADC_t {
     ADC_RegDef_t *adc_addr;

@@ -268,3 +268,13 @@ Timer Prescaler example:
     Period      = TIm_ARR val = 499 + 1
 
     Update Event = 48,000,000 / ((47999+1)(499+1)) 2Hz or 0.5 seconds. (In a 4 GHz system, 4Hz is a second)
+
+Common Timer Registers
+*Prescaler (PSC): holds the prescaler value
+*Auto-Reload Register (ARR): This is the value that counts down from
+*Control Register 1 (CR1): Enables and disbales timers. 
+*Status Register (SR): TImer flags 
+*Capture and Compare registers. One for each of the 4 channels
+*Capture and Compare Mode registers
+*Capture/Compare Enable Resgister(CCER): configures channels as either input or output
+*

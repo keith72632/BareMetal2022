@@ -35,6 +35,25 @@
 #define ALT_USART_2    0x07
 #define ALT_USART_3    0x07
 
+typedef struct Pin {
+    uint8_t pin_no;
+    uint8_t pin_mode;
+    uint8_t pupd;
+    Pin(uint8_t no, uint8_t mode, uint8_t pullup);
+}Pin_t;
+
+typedef struct GPIOx {
+	GPIO_RegDef_t *port;
+    uint8_t pin_no;
+    uint8_t pin_mode;
+    uint8_t pupd;
+	GPIOx(GPIO_RegDef_t *_port, uint8_t no, uint8_t mode, uint8_t pullup);
+	void write();
+	uint32_t read();
+	void clear();
+    void exti_interrupt();
+}GPIOx_t;
+
 typedef struct PinConf {
     uint8_t pin_no;
     uint8_t pin_mode;
@@ -53,4 +72,7 @@ void clear_pin(GPIO_t *gpio);
 void reset_pin(GPIO_t *gpio);
 uint32_t read_pin(GPIO_t *gpio);
 
+extern "C" {
+	void EXTI0_IRQHandler(void);
+}
 #endif

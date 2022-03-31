@@ -12,6 +12,13 @@
 #define TXE          0x0080
 #define TC           0x0040
 
+typedef struct USARTx {
+    USART_RegDef_t *type;
+    USARTx(USART_RegDef_t *type);
+    void putc(const char c);
+    void puts(const char *s);
+}USARTx_t;
+
 typedef struct USART {
     USART_RegDef_t *type;
     GPIO_t rx_pin;

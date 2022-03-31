@@ -5,7 +5,6 @@
 #include "systick.h"
 #include "stm32f407xx.h"
 #include <stdint.h>
-#include <stdio.h>
 
 #define LED_GREEN 12
 #define LED_ORANGE 13
@@ -61,7 +60,6 @@ int main()
         tim2_1hz_init();
     */
 
-    	printf("reading = %ld mV\n", (input * 5));
     	uart_puts(&usart3, "ADC read\n\r");
     }
 
